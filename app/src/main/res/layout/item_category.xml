@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_margin="20dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    android:id="@+id/cardNews"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/itemCategory"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imgCategory"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/img_1"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"/>
+
+        <TextView
+            android:id="@+id/CategoryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BUSNESS"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:textSize="40sp" />
+
+    </RelativeLayout>
+
+
+</FrameLayout>
