@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.webkit.WebViewClient
 import com.example.examplenewsapi.R
 import com.example.examplenewsapi.databinding.ActivityDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
     lateinit var binding : ActivityDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {

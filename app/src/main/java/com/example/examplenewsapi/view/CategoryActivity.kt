@@ -8,7 +8,9 @@ import com.example.examplenewsapi.R
 import com.example.examplenewsapi.adapter.CategoryAdapter
 import com.example.examplenewsapi.databinding.ActivityCategoryBinding
 import com.example.examplenewsapi.model.CategoryData
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CategoryActivity : AppCompatActivity() {
     lateinit var binding : ActivityCategoryBinding
     lateinit var categoryAdapter : CategoryAdapter
@@ -29,16 +31,18 @@ class CategoryActivity : AppCompatActivity() {
         )
         categoryAdapter = CategoryAdapter(listCategory)
         binding.rvCategory.apply {
-            layoutManager =
-                LinearLayoutManager(this@CategoryActivity, LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = categoryAdapter
             categoryAdapter.onClick = {
-                var categ = it.name
-                val inten = Intent(context, SourceActivity::class.java)
-                inten.putExtra("name", categ)
-                startActivity(inten)
+                val intent = Intent(this@CategoryActivity, SourceActivity::class.java)
+                val categoryItem = it.name
+                val bundle = Bundle()
+                bundle.putString("category", categoryItem)
+                intent.putExtras(bundle)
+                startActivity(intent)
             }
         }
+
     }
 
 

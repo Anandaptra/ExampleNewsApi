@@ -3,6 +3,7 @@ package com.example.examplenewsapi.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,41 +11,44 @@ import com.example.examplenewsapi.R
 import com.example.examplenewsapi.adapter.SourceAdapter
 import com.example.examplenewsapi.databinding.ActivitySourceBinding
 import com.example.examplenewsapi.viewmodel.SourceViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SourceActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySourceBinding
     private lateinit var sourceAdapter: SourceAdapter
-    private lateinit var sourceViewModel: SourceViewModel
+    lateinit var viewModel : SourceViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySourceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sourceAdapter = SourceAdapter(ArrayList())
-        binding.rvSource.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.rvSource.adapter = sourceAdapter
+        viewModel = ViewModelProvider(this).get(SourceViewModel::class.java)
+
 
         val bundle = intent.extras
-        val getCategory = bundle?.getString("name", "") ?: ""
+        val catName = bundle?.getString("category")
 
-        sourceViewModel = ViewModelProvider(this).get(SourceViewModel::class.java)
-        sourceViewModel.callApiSource(getCategory)
-
-        sourceViewModel.getDataSource().observe(this, Observer { list ->
-            list?.let {
-                sourceAdapter.listSource(it)
+        viewModel.callApiSource(catName!!)
+        viewModel.liveDataSource.observe(this){
+            it?.map {
+                Log.d("SourceActivity", it.name)
             }
-        })
-
-        sourceAdapter.onClick = { source ->
-            val bundle = Bundle().apply {
-                putString("source", source.name)
+            sourceAdapter = SourceAdapter(it!!)
+            binding.rvSource.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                adapter = sourceAdapter
             }
-            val intent = Intent(this, ArticleActivity::class.java)
-            intent.putExtras(bundle)
-            startActivity(intent)
+            sourceAdapter.onClick = {   source ->
+                val intent = Intent(this@SourceActivity,ArticleActivity::class.java)
+                val sourceItem = source.id
+                val bundle = Bundle()
+                bundle.putString("source",sourceItem)
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
         }
     }
 }
