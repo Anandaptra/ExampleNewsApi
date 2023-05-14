@@ -18,6 +18,6 @@ interface ApiService {
     @GET("top-headlines")
     fun getAllArticles(
         @Query("sources") sources : String,
-        @Query("apiKey") apiKey : String = "ad992dbb7a9c4b15bb9b37e5d4ef3358"
+        @Query("apiKey") apiKey : String = "f827493d7bcf4de0b82e63f33b1e698e"
     ) : Call<ResponseDataArticle>
 }
